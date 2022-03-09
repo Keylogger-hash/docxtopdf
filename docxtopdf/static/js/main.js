@@ -1,3 +1,4 @@
+
 (function(){
 
     function FileUploader(ID){
@@ -101,7 +102,8 @@
     };
 
     FileUploader.prototype.validateFile = function(queueItem, file){
-        if (file.type.match(/image/) || file.type === 'application/pdf') {
+        console.log(file.type)
+        if (file.type === 'application/msword' || file.type==='application/vnd.openxmlformats-officedocument.wordprocessingml.document') {
             this.simulateUpload(queueItem, file);
         } else {
             var errorTxt = document.createElement('p');
@@ -123,7 +125,7 @@
             }, FileUploader.PROGRESS_ANIMATION_DELAY);
         }
     };
-
+  
     var fileIDUploader = new FileUploader('uploadIDForm'),
         fileAddressUploader = new FileUploader('uploadAddressForm');
 }());

@@ -13,14 +13,18 @@
 <!--    <p>Lorem ipsum dolor sit amet.</p>-->
 <!--</div>-->
 <script type="text/html" id="uploadFormTemplate">
-    <form class="uploadForm">
+    <form action="" method="POST" class="uploadForm" enctype="multipart/form-data">
         {%csrf_token%}
+        
         <span class="inputs"></span>
         <p class="uploadCaption">
-            Drag your file(s) here or click <span class="link">here</span> to add one.
+            {%for field in form%}
+        {{field}}
+        {%endfor%}
         </p>
         <p class="subcaption">File	size limit: 100Mb | File type allowed: docx</p>
         <p class="uploadQueue"></p>
+        <input type="submit" value="Submit">
     </form>
 </script>
 <script src="/static/js/main.js"></script>
