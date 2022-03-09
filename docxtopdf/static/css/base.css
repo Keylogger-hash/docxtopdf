@@ -1,0 +1,122 @@
+body{
+    margin: 200;
+    padding: 0;
+}
+
+h1, h2, h3, p{
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.col{
+    padding: 0 28px;
+    border: 1px solid rgb(234, 234, 234);
+    float: left;
+    min-height: 300px;
+}
+
+.col p{
+    font-size: 12px;
+}
+
+.uploadForm{
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 12px;
+    width: 400px;
+    height: 400px
+    float: left;
+}
+
+.uploadForm .inputs input{
+    display: none;
+}
+
+.uploadForm .uploadCaption{
+    border: 2px dashed #0b6cbc;
+    -webkit-border-radius: 7px;
+    padding: 8px;
+    color: #0b6cbc;
+    text-align: center;
+    margin: 5px 0;
+}
+
+.uploadForm .uploadCaption:hover{
+    cursor: pointer;
+}
+
+.uploadForm .link{
+    text-decoration: underline;
+    font-weight: bold;
+}
+
+.uploadForm .subcaption{
+    font-size: 10px;
+    margin: 0;
+    text-indent: 10px;
+}
+
+.uploadForm .uploadQueue{
+    margin: 18px 0;
+}
+
+.uploadForm .progressBar{
+    width: 100%;
+    height: 7px;
+    background-color: #eaeaea;
+    float: left;
+    margin-bottom: 10px;
+}
+
+.uploadForm .bar{
+    background-color: #0b6cbc;
+    width: 0;
+    height: 7px;
+}
+
+.uploadForm .queueItem.simulatedProgress .bar{
+    -webkit-animation: progressAnimator 3s linear forwards;
+    -moz-animation: progressAnimator 3s linear forwards;
+    -ms-animation: progressAnimator 3s linear forwards;
+    -o-animation: progressAnimator 3s linear forwards;
+    animation: progressAnimator 3s linear forwards;
+}
+
+@-webkit-keyframes progressAnimator{
+    from{width: 0%;}
+    to{width: 100%;}
+}
+
+@-moz-keyframes progressAnimator{
+    from{width: 0%;}
+    to{width: 100%;}
+}
+
+@-ms-keyframes progressAnimator{
+    from{width: 0%;}
+    to{width: 100%;}
+}
+
+@-o-keyframes progressAnimator{
+    from{width: 0%;}
+    to{width: 100%;}
+}
+
+@keyframes progressAnimator{
+    from{width: 0%;}
+    to{width: 100%;}
+}
+
+.uploadForm .queueItem.resolved .progressBar{
+    display: none;
+}
+
+.uploadForm .queueItem .success-txt, .uploadForm .queueItem .error-txt{
+    font-weight: bold;
+}
+
+.uploadForm .queueItem .success-txt{
+    color: green;
+}
+
+.uploadForm .queueItem .error-txt{
+    color: red;
+}
