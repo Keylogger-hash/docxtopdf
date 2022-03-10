@@ -1,6 +1,9 @@
 body{
-    margin: 200;
-    padding: 0;
+   
+    padding-left: 600px;
+    padding-right: 100px;
+    padding-top: 80px;
+    padding-bottom: 80px;
 }
 
 h1, h2, h3, p{
@@ -9,30 +12,47 @@ h1, h2, h3, p{
 
 .col{
     padding: 0 28px;
-    border: 1px solid rgb(234, 234, 234);
+    background-color:#ffffff ;
+    border: 5px solid rgb(234, 234, 234);
     float: left;
-    min-height: 300px;
+    min-height: 400px;
 }
 
+.col h3 {
+    text-align: center;
+    font-size: 24px;
+}
 .col p{
-    font-size: 12px;
+    font-size: 16px;
+    text-align: center;
 }
 
 .uploadForm{
     font-family: Arial, Helvetica, sans-serif;
     font-size: 12px;
-    width: 400px;
-    height: 400px
-    float: left;
+    width: auto;
+    height: auto;
+    float: right;
 }
-
+#id_filename {
+    margin: auto;
+    font-size: 20px;
+    padding: 50px 10px 40px 200px;
+}
+#id_submitfile {
+    margin: 50;
+    padding-left: 220px;
+    padding-right: 220px;
+    font-size: 18px;
+    text-align: center;
+}
 .uploadForm .inputs input{
     display: none;
 }
 
 .uploadForm .uploadCaption{
     border: 2px dashed #0b6cbc;
-    -webkit-border-radius: 7px;
+    border-radius: 7px;
     padding: 8px;
     color: #0b6cbc;
     text-align: center;
