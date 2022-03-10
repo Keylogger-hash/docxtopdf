@@ -1,7 +1,10 @@
 from django.shortcuts import render
-from django.http import HttpResponseRedirect
+from django.shortcuts import redirect
 from django.views.generic import View
+from django.views.decorators.clickjacking import xframe_options_sameorigin
+from docxtopdf.settings import MEDIA_ROOT
 from .forms import UploadPdfForm
+from .models import FileDocxPdf
 from .tasks import convert
 import uuid
 import os
@@ -17,9 +20,33 @@ class Index(View):
         form = UploadPdfForm(request.POST, request.FILES)
         if form.is_valid():
             file = form.files["filename"]
-            pathtofile = self.upload_file(file)
-            convert.delay(pathtofile)
-            return HttpResponseRedirect("")
+            pathtofiledocx = self.upload_file(file)
+            print(pathtofiledocx)
+            pathtofiledocxrename = self.remove_tabs_filename(pathtofiledocx)
+            print(pathtofiledocxrename)
+            pathtofilepdf = self.create_pathtofilepdf(pathtofiledocxrename)
+            print(pathtofiledocxrename)
+            filename = os.path.split(pathtofiledocxrename)[1]
+            fileuuid = uuid.uuid4()
+            filedocxpdf = FileDocxPdf(file_id=fileuuid,type=file.content_type, filename=filename,filepathpdf=pathtofilepdf,filepath=pathtofiledocxrename)
+            filedocxpdf.save()
+            convert.delay(pathtofiledocx)
+            return redirect("preview/"+str(fileuuid)+'/')
+
+    def remove_tabs_filename(self, filename):
+        filerenamed = filename.replace(' ','+')
+        
+        os.rename(filename,filerenamed)
+        return filerenamed
+
+    def create_pathtofilepdf(self,filename):
+        if 'docx' in filename:
+            pathtofilepdf = filename.split('.docx')[0]+'.pdf'
+            return pathtofilepdf
+
+        elif 'doc' in filename:
+            pathtofilepdf = filename.split('.doc')[0]+'.pdf'
+            return pathtofilepdf
 
     def upload_file(self, file):
         uuid1 = uuid.uuid4()
@@ -31,3 +58,10 @@ class Index(View):
                 destination.write(chunk)
 
         return pathtofile
+
+
+class Preview(View):
+    def get(self,request, file_id):
+        obj = FileDocxPdf.objects.get(file_id=file_id)
+        filepathpdf = obj.filepathpdf
+        return render(request,'preview.html', context={"filepathpdf":filepathpdf})

@@ -6,20 +6,18 @@
 
 </head>
 <div class="col" id="uploadIDForm">
-    <h3>Upload docx file</h3>
+    <h3>Upload docx/pdf file</h3>
     <p>Upload your file.</p>
-</div>
-
-<script type="text/html" id="uploadFormTemplate">
-    <form class="uploadForm" action="" method="POST" enctype="multipart/form-data">
+    <form class="uploadForm" action="" method="POST" enctype="multipart/form-data" >
         {%csrf_token%}
         {% for field in form%}
         {{field}}
         {%endfor%}
         <br>
-        <input type="submit" value="submit" id="id_submitfile">
+        <input type="submit" value="convert" id="id_submitfile">
     </form>
-</script>
-<script src="/static/js/main.js"></script>
+</div>
 
+
+<script src="/static/js/main.js"></script>
 </html>
