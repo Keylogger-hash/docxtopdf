@@ -1,9 +1,7 @@
+from msilib.schema import File
 from django.shortcuts import render
-<<<<<<< HEAD
-from django.http import HttpResponseRedirect, HttpResponse
-=======
+from django.http import HttpResponseRedirect, JsonResponse
 from django.shortcuts import redirect
->>>>>>> 207ef165176f9f1808fadc6166969f3121787064
 from django.views.generic import View
 from django.views.decorators.clickjacking import xframe_options_sameorigin
 from docxtopdf.settings import MEDIA_ROOT
@@ -37,7 +35,7 @@ class Index(View):
             filedocxpdf = FileDocxPdf(file_id=fileuuid, type=file.content_type, filename=filename,
                                       filepathpdf=pathtofilepdf, filepath=pathtofiledocxrename)
             filedocxpdf.save()
-            convert.delay(pathtofiledocx)
+            convert.delay(pathtofiledocxrename)
             return redirect("preview/" + str(fileuuid) + '/')
 
 
@@ -73,3 +71,11 @@ class Preview(View):
         filepathpdf = obj.filepathpdf
         return render(request,'preview.html', context={"filepathpdf":filepathpdf})
 
+
+class Processing(View):
+    def get(self, request, file_id):
+        obj = FileDocxPdf.objects.get(file_id=file_id)
+        if os.path.exists(obj.filepathpdf):
+            return redirect("preview/" + str(file_id) + '/')
+        else:
+            return JsonResponse({"progress":False})

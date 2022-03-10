@@ -1,4 +1,6 @@
 var fileinput  = document.getElementById("id_filename")
+form = document.getElementById("id_filename")
+console.log(form)
 fileinput.addEventListener("change",uploadFile, )
 
 function uploadFile(){

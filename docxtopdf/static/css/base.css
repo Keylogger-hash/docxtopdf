@@ -1,9 +1,9 @@
 body{
    
-    padding-left: 600px;
-    padding-right: 100px;
-    padding-top: 80px;
-    padding-bottom: 80px;
+    position: fixed;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
 }
 
 h1, h2, h3, p{
