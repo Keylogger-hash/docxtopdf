@@ -2,25 +2,22 @@
 {%load static%}
 <head>
     <link rel="stylesheet" href="static/css/base.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 </head>
 <div class="col" id="uploadIDForm">
     <h3>Upload docx file</h3>
     <p>Upload your file.</p>
 </div>
-<!--<div class="col" id="uploadAddressForm">-->
-<!--    <h3>Verify Your Address</h3>-->
-<!--    <p>Lorem ipsum dolor sit amet.</p>-->
-<!--</div>-->
+
 <script type="text/html" id="uploadFormTemplate">
-    <form class="uploadForm">
+    <form class="uploadForm" action="" method="POST" enctype="multipart/form-data">
         {%csrf_token%}
-        <span class="inputs"></span>
-        <p class="uploadCaption">
-            Drag your file(s) here or click <span class="link">here</span> to add one.
-        </p>
-        <p class="subcaption">File	size limit: 100Mb | File type allowed: docx</p>
-        <p class="uploadQueue"></p>
+        {% for field in form%}
+        {{field}}
+        {%endfor%}
+        <br>
+        <input type="submit" value="submit" id="id_submitfile">
     </form>
 </script>
 <script src="/static/js/main.js"></script>
