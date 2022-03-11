@@ -1,4 +1,4 @@
-from msilib.schema import File
+#from msilib.schema import File
 from django.shortcuts import render
 from django.http import HttpResponseRedirect, JsonResponse
 from django.shortcuts import redirect
@@ -75,7 +75,10 @@ class Preview(View):
 class Processing(View):
     def get(self, request, file_id):
         obj = FileDocxPdf.objects.get(file_id=file_id)
-        if os.path.exists(obj.filepathpdf):
-            return redirect("preview/" + str(file_id) + '/')
+        if obj is None:
+            return JsonResponse({"success":False})
         else:
-            return JsonResponse({"progress":False})
+            if os.path.exists(obj.filepathpdf):
+                return JsonResponse({"success":True,"ready":True,"filepathpdf": obj.filepathpdf})
+            else:
+                return JsonResponse({"success":True,"ready":False})

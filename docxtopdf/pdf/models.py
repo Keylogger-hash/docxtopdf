@@ -7,6 +7,5 @@ class FileDocxPdf(models.Model):
     filename = models.CharField(max_length=255)
     filepath = models.FilePathField()
     filepathpdf = models.FilePathField(default='')
-    returncode = models.IntegerField()
     def save(self, *args,**kwargs):
         super().save(*args, **kwargs)

@@ -1,10 +1,11 @@
 <html>
     {%load static%}
     <head>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">      
+        <link rel="stylesheet" href="/static/css/preview.css">
     </head>
-    <a href="http://localhost:8000/{{filepathpdf}}" download>Download file</a><br><br>
-    <iframe id="idframe" width="70%" height="90%" src="http://localhost:8000/{{filepathpdf}}"></iframe>
+    <div id="app">
+    </div>
+    <script src="/static/js/preview.js"></script>
     </html>
 </html>
