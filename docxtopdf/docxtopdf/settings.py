@@ -76,8 +76,12 @@ WSGI_APPLICATION = 'docxtopdf.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'docxtopdf',
+        'USER': 'docxtopdfuser',
+        'PASSWORD': '123',
+        'HOST': 'localhost',
+        'PORT': '5432',
     }
 }
 
@@ -112,12 +116,19 @@ USE_I18N = True
 
 USE_TZ = True
 # CELERY STUFF
-CELERY_BROKER_URL = 'redis://localhost:6379/0'
-CELERY_RESULT_BACKEND = 'redis://localhost:6379/0'
+CELERY_BROKER_URL = 'amqp://myuser:mypassword@127.0.0.1:5672/myvhost'
+CELERY_RESULT_BACKEND = 'rpc://'
+# CELERY_RESULT_BACKEND = 'amqp://myuser:mypassword@127.0.0.1:5672/myvhost'
 CELERY_ACCEPT_CONTENT = ['application/json']
 CELERY_TASK_SERIALIZER = 'json'
 CELERY_RESULT_SERIALIZER = 'json'
 CELERY_TIMEZONE = 'Africa/Nairobi'   
+# CELERY_BROKER_URL = 'redis://localhost:6379/0'
+# CELERY_RESULT_BACKEND = 'redis://localhost:6379/0'
+# CELERY_ACCEPT_CONTENT = ['application/json']
+# CELERY_TASK_SERIALIZER = 'json'
+# CELERY_RESULT_SERIALIZER = 'json'
+# CELERY_TIMEZONE = 'Africa/Nairobi'   
 
 # X-FRAME-OPTIONS
 X_FRAME_OPTIONS = 'SAMEORIGIN'

@@ -20,22 +20,18 @@ class Index(View):
 
     def post(self, request):
         form = UploadPdfForm(request.POST, request.FILES)
-        print(request.POST)
-        print(request.FILES)
         if form.is_valid():
             file = form.files["filename"]
             pathtofiledocx = self.upload_file(file)
-            print(pathtofiledocx)
             pathtofiledocxrename = self.remove_tabs_filename(pathtofiledocx)
-            print(pathtofiledocxrename)
             pathtofilepdf = self.create_pathtofilepdf(pathtofiledocxrename)
-            print(pathtofiledocxrename)
             filename = os.path.split(pathtofiledocxrename)[1]
             fileuuid = uuid.uuid4()
             filedocxpdf = FileDocxPdf(file_id=fileuuid, type=file.content_type, filename=filename,
                                       filepathpdf=pathtofilepdf, filepath=pathtofiledocxrename)
             filedocxpdf.save()
             convert.delay(pathtofiledocxrename)
+            form = UploadPdfForm()
             return redirect("preview/" + str(fileuuid) + '/')
 
 
