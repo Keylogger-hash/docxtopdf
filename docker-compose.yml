@@ -1,0 +1,51 @@
+version: "3.2"
+
+
+services:
+  db:
+    image: postgres:13
+    container_name: db
+    volumes:
+      - db:/var/lib/postgresql/data
+    environment:
+      - POSTGRESQL_USER=docxtopdfuser
+      - POSTGRESQL_PASSWORD=123
+      - POSTGRES_NAME=docxtopdf 
+      - POSTGRES_HOST_AUTH_METHOD=trust
+    ports:
+      - "5432:5432"
+    networks:
+      - shared_network
+
+  web:
+    build: 
+      context: docxtopdf/
+      dockerfile: Dockerfile
+    volumes:
+      - ".:/app"
+      - db:/var/lib/postgresql/data
+    ports: 
+      - "8000:8000"
+    depends_on:
+      - db
+    links:
+      - "db: db"
+    environment:
+      - POSTGRESQL_USER=docxtopdfuser
+      - POSTGRESQL_PASSWORD=123
+      - POSTGRES_NAME=docxtopdf 
+      - POSTGRES_HOST=db
+    
+    networks:
+      - shared_network
+
+  
+volumes:
+  db:
+    driver: local
+networks:
+  shared_network:
+    driver: bridge
+
+
+
