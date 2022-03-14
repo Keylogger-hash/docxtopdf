@@ -117,8 +117,8 @@ USE_I18N = True
 
 USE_TZ = True
 # CELERY STUFF
-CELERY_BROKER_URL = 'amqp://guest:guest@rabbitmq:5672/'
-CELERY_RESULT_BACKEND = 'rpc://'
+CELERY_BROKER_URL = 'amqp://guest:guest@rabbitmq:5672'
+#CELERY_RESULT_BACKEND = 'rpc://'
 # CELERY_RESULT_BACKEND = 'amqp://myuser:mypassword@127.0.0.1:5672/myvhost'
 CELERY_ACCEPT_CONTENT = ['application/json']
 CELERY_TASK_SERIALIZER = 'json'
@@ -137,9 +137,9 @@ X_FRAME_OPTIONS = 'SAMEORIGIN'
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.0/howto/static-files/
 
-STATIC_URL = '/static/'
-STATIC_ROOT = '/static/'
-#STATICFILES_DIRS = [os.path.join(BASE_DIR, '/static/')]
+STATIC_URL = 'static/'
+#STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+STATICFILES_DIRS =[ os.path.join(BASE_DIR, 'static')]
 # MEDIA
 
 MEDIA_URL = '/media/'
