@@ -4,13 +4,39 @@ version: "3.8"
    
 services:
   db:
-    image: postgres
+    image: postgres:13
     environment:
       - POSTGRES_DB=postgres
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
     ports:
       - "5432:5432"
+    networks:
+      - shared_network
+
+  rabbitmq:
+    image: "rabbitmq:3-management"
+    container_name: rabbitmq
+    hostname: rabbitmq
+    
+    ports:
+      - 5672:5672
+      - 15672:15672
+    networks:
+      - shared_network
+
+  celery:
+    build:
+      context: .
+      dockerfile: celery.Dockerfile
+    container_name: celery
+    command: bash -c "cd docxtopdf && celery -A docxtopdf worker -l INFO"
+    depends_on:
+      - rabbitmq
+    links:
+      - rabbitmq:rabbitmq
+    networks:
+      - shared_network
 
   web:
     build: .
@@ -25,6 +51,14 @@ services:
     ports:
       - "8000:8000"
     depends_on:
+      - rabbitmq
       - db
     links:
       - db:db
+      - rabbitmq:rabbitmq
+    networks:
+      - shared_network
+
+networks:
+  shared_network:
+    driver: bridge
