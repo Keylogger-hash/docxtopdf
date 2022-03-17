@@ -13,13 +13,35 @@ services:
       - POSTGRES_PASSWORD=postgres
     ports:
       - "5432:5432"
+    networks:
+      main:
+        aliases:
+          - django_network
 
+  nginx:
+    build:
+      context: .
+      dockerfile: nginx.Dockerfile
+    hostname: nginx
+    container_name: nginx
+    volumes:
+      - ./docxtopdf:/docxtopdf
+    ports:
+      - "80:80"
+    networks:
+      main:
+        aliases:
+          - django_network
 
   rabbitmq:
     image: "rabbitmq:3-management"
     ports:
       - 5672:5672
       - 15672:15672
+    networks:
+      main:
+        aliases:
+          - django_network
 
 
   celery:
@@ -34,25 +56,37 @@ services:
       - rabbitmq
     links:
       - rabbitmq:rabbitmq
+    networks:
+      main:
+        aliases:
+          - django_network
+    
 
 
   web:
     build: .
-    command: bash -c "cd docxtopdf && sleep 10 && python manage.py migrate && 
-                      python3 manage.py runserver 0.0.0.0:8000"
-    volumes:
-      - .:/code
+    hostname: web
+    command: bash -c "cd docxtopdf && sleep 10 && python manage.py migrate && gunicorn docxtopdf.wsgi -w 4 --bind 0.0.0.0:8000"
     environment:
       - POSTGRES_DB=postgres
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
-    ports:
-      - "8000:8000"
+    expose:
+      - 8000
     depends_on:
       - rabbitmq
       - db
+      - nginx
     links:
       - db:db
       - rabbitmq:rabbitmq
+    networks:
+      main:
+        aliases:
+          - django_network
    
+
+networks:
+  main:
+  
 

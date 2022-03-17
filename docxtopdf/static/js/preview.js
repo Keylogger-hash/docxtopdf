@@ -9,9 +9,9 @@ function main() {
     fetch(url).then(r=>r.json()).then((data)=>{
         if (data.ready === true){
             filepathpdf = data.filepathpdf
-            app.innerHTML = `<iframe id="idframe" width="100%" height="100%" src="http://localhost:8000/${filepathpdf}"></iframe> `
+            app.innerHTML = `<iframe id="idframe" width="100%" height="100%" src="/${filepathpdf}"></iframe> `
         } else {
-            app.innerHTML = `<p > <img style="display: block;margin-left: auto;margin-right: auto;width: 50%;" src="/static/images/14972.gif"></p>`
+            app.innerHTML = `<p > <img style="display: block;margin-left: auto;margin-right: auto;width: 50%;" src={% static "images/14792.gif"%}></p>`
             setTimeout(main,1000)
         }
     })
