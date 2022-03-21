@@ -1,14 +1,14 @@
 FROM python:3
 
 ENV DEBIAN_FRONTEND=noninteractive
-COPY . /app
-WORKDIR /app
-RUN apt update -qq && apt install -y default-jre libreoffice-java-common && pip3 install -r requirements.txt
+COPY . /docxtopdf
+COPY requirements.txt /docxtopdf/docxtopdf
+WORKDIR /docxtopdf/docxtopdf
+RUN apt update -qq && apt install -y default-jre libreoffice-writer  && pip3 install -r requirements.txt
 
 
 
 
 
 
-VOLUME [ "/app" ]
-#ENTRYPOINT ["celery","-A", "docxtopdf", "worker", "-l", "INFO"]
+ENTRYPOINT ["celery","-A", "docxtopdf", "worker", "-l", "INFO"]

@@ -52,7 +52,7 @@ class Index(View):
 
     def upload_file(self, file):
         uuid1 = uuid.uuid4()
-        path = f"media/{uuid1}"
+        path = f"/media/{uuid1}"
         pathtofile = f"{path}/{file}"
         os.makedirs(path)
         with open(pathtofile, "wb+") as destination:

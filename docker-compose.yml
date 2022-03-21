@@ -24,14 +24,17 @@ services:
       dockerfile: nginx.Dockerfile
     hostname: nginx
     container_name: nginx
+    depends_on:
+      - web
     volumes:
-      - ./docxtopdf:/docxtopdf
+      - ./docxtopdf/static:/static
+      - ./docxtopdf/media:/media
     ports:
       - "80:80"
     networks:
       main:
         aliases:
-          - django_network
+          - nginx
 
   rabbitmq:
     image: "rabbitmq:3-management"
@@ -41,7 +44,7 @@ services:
     networks:
       main:
         aliases:
-          - django_network
+          - rabbitmq
 
 
   celery:
@@ -50,8 +53,7 @@ services:
       dockerfile: celery.Dockerfile
     container_name: celery
     volumes:
-      - .:/app
-    command: bash -c "cd docxtopdf  && celery -A docxtopdf worker -l INFO"
+      - ./docxtopdf/media:/media
     depends_on:
       - rabbitmq
     links:
@@ -59,14 +61,14 @@ services:
     networks:
       main:
         aliases:
-          - django_network
+          - celery
     
 
 
   web:
     build: .
     hostname: web
-    command: bash -c "cd docxtopdf && sleep 10 && python manage.py migrate && gunicorn docxtopdf.wsgi -w 4 --bind 0.0.0.0:8000"
+    command: bash -c "sleep 10 && python3 manage.py migrate && gunicorn docxtopdf.wsgi -w 4 --bind 0.0.0.0:8000"
     environment:
       - POSTGRES_DB=postgres
       - POSTGRES_USER=postgres
@@ -76,17 +78,18 @@ services:
     depends_on:
       - rabbitmq
       - db
-      - nginx
     links:
       - db:db
       - rabbitmq:rabbitmq
+    volumes:
+      - ./docxtopdf/media:/media
     networks:
       main:
         aliases:
-          - django_network
+          - web
    
 
 networks:
   main:
-  
+
 
