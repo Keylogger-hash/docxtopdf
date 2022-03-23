@@ -68,7 +68,7 @@ services:
   web:
     build: .
     hostname: web
-    command: bash -c "sleep 10 && python3 manage.py migrate && gunicorn docxtopdf.wsgi -w 4 --bind 0.0.0.0:8000"
+    command: bash -c "sleep 10 && python3 manage.py makemigrations && python3 manage.py migrate && gunicorn docxtopdf.wsgi -w 4 --bind 0.0.0.0:8000"
     environment:
       - POSTGRES_DB=postgres
       - POSTGRES_USER=postgres
